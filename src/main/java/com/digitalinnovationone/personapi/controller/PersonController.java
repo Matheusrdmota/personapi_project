@@ -1,14 +1,27 @@
 package com.digitalinnovationone.personapi.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.digitalinnovationone.personapi.dto.MessageDTO;
+import com.digitalinnovationone.personapi.entity.Person;
+import com.digitalinnovationone.personapi.repository.PersonRepository;
+import com.digitalinnovationone.personapi.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/people")
 public class PersonController {
-    @GetMapping
-    public String getBook() {
-        return "API test!";
+
+    private PersonService personService;
+
+    @Autowired
+    public PersonController(PersonService personService) {
+        this.personService = personService;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public MessageDTO createPerson(@RequestBody Person person) {
+        return personService.createPerson(person);
     }
 }
